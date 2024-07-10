@@ -15,9 +15,11 @@ const cancelBooking = (
 );
 
 const Button = ({ children = cancelBooking, cls, testId, type }: Props) => {
-  <button data-test-id={testId} className={cls} type={type}>
-    {children}
-  </button>;
+  return (
+    <button data-test-id={testId} className={cls} type={type}>
+      {children}
+    </button>
+  );
 };
 
 export { Button };

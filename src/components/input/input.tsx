@@ -9,7 +9,7 @@ type Props = {
   name: ValueOf<typeof Name>;
   testId: ValueOf<typeof InputTest>;
   placeHolder?: "search by title";
-  required: boolean;
+  required?: boolean;
 };
 
 const Input = ({
@@ -19,9 +19,12 @@ const Input = ({
   required = true,
   testId,
   type,
-  labelCls,
+  labelCls = "input__heading",
   filterCls,
 }: Props) => {
+  const minLength = type === "password" ? 3 : undefined;
+  const maxLength = type === "password" ? 20 : undefined;
+  const auto = type === "password" ? "new-password" : "off";
   const min = type === "number" ? "1" : undefined;
   const max = type === "number" ? "10" : undefined;
   const value = type === "number" ? "1" : undefined;
@@ -34,13 +37,14 @@ const Input = ({
         name={name}
         type={type}
         placeholder={placeHolder}
-        autoComplete={type === "password" ? "new-password" : "off"}
+        autoComplete={auto}
+        minLength={minLength}
+        maxLength={maxLength}
         min={min}
         max={max}
         value={value}
         required={required}
       />
-      ;
     </label>
   );
 };
