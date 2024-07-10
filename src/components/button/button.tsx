@@ -20,4 +20,4 @@ const Button = ({ children = cancelBooking, cls, testId, type }: Props) => {
   </button>;
 };
 
-export default Button;
+export { Button };
