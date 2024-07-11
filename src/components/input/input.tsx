@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import { InputTest, InputType, Label, Name } from "~/enums/enums";
 import { ValueOf } from "~/types/types";
 
@@ -9,6 +10,7 @@ type Props = {
   name: ValueOf<typeof Name>;
   testId: ValueOf<typeof InputTest>;
   placeHolder?: "search by title";
+  handleChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
 };
 
@@ -21,6 +23,7 @@ const Input = ({
   type,
   labelCls = "input__heading",
   filterCls,
+  handleChange,
 }: Props) => {
   const minLength = type === "password" ? 3 : undefined;
   const maxLength = type === "password" ? 20 : undefined;
@@ -43,6 +46,7 @@ const Input = ({
         min={min}
         max={max}
         value={value}
+        onChange={handleChange}
         required={required}
       />
     </label>
