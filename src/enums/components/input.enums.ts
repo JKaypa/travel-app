@@ -32,4 +32,8 @@ const Name = {
   SEARCH: "search",
 } as const;
 
-export { InputType, Label, Name, InputTest };
+const PlaceHolder = {
+  SEARCH_TITLE: "search by title",
+} as const;
+
+export { InputType, Label, Name, InputTest, PlaceHolder };
