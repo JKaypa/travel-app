@@ -10,7 +10,6 @@ export function useFilter() {
 
   useEffect(() => {
     let data = dataTrips;
-    console.log(data);
 
     if (search) data = filterSearch(data, search);
     if (duration) data = filterDuration(data, duration);

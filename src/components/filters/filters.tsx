@@ -4,9 +4,9 @@ import { duration, level } from "../selection/helpers/options.helper";
 import { InputTest, InputType, Label, Name, PlaceHolder } from "~/enums/enums";
 import "./styles/filters.css";
 
-interface Props {
+type Props = {
   handleChange: (event: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => void;
-}
+};
 
 const Filters = ({ handleChange }: Props) => {
   return (

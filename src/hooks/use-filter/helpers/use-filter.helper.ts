@@ -1,4 +1,4 @@
-import { firstUpperCase } from "./upper-case.helper";
+// import { firstUpperCase } from "./upper-case.helper";
 
 type Trip = {
   id: string;
@@ -31,7 +31,7 @@ const filterLevel = (trips: Trip[], level: string) => {
 };
 
 const filterSearch = (trips: Trip[], search: string) => {
-  return trips.filter((trip) => trip.title.includes(firstUpperCase(search)));
+  return trips.filter((trip) => trip.title.toLowerCase().search(search.toLowerCase()) >= 0);
 };
 
 export { filterDuration, filterLevel, filterSearch };

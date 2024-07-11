@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { Route } from "~/enums/enums";
 import "./styles/trip-card.css";
 
-export interface Props {
+type Props = {
   id: string;
   image: string;
   title: string;
   duration: number;
   level: string;
   price: number;
-}
+};
 
 const TripCard = ({ image, title, duration, level, price, id }: Props) => {
   return (
