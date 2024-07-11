@@ -1,5 +1,6 @@
 import { ChangeEvent } from "react";
 import "./styles/selection.css";
+import { decodeEntity } from "./helpers/decode-entity.helper";
 
 type Props = {
   filteredBy: string;
@@ -15,7 +16,7 @@ const Selection = ({ filteredBy, options, handleChange }: Props) => {
         <option value="">{filteredBy}</option>
         {options.map((option) => (
           <option value={option.value} key={option.value}>
-            {option.name}
+            {decodeEntity(option.name)}
           </option>
         ))}
       </select>
