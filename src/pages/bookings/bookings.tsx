@@ -1,10 +1,10 @@
-import dataBookings from "~/data/bookings.json";
 import { BookingCard } from "~/components/components";
 import { useFormatDate } from "~/hooks/hooks";
+import { Booking } from "~/types/types";
 import "./styles/bookings.css";
 
 type Props = {
-  bookings: typeof dataBookings;
+  bookings: Booking[];
   handleClose: (id: string) => void;
 };
 
