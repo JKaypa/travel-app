@@ -10,8 +10,13 @@ type Props = {
   name: ValueOf<typeof Name>;
   testId: ValueOf<typeof InputTest>;
   placeHolder?: "search by title";
-  handleChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
+  value?: string | number;
+  min?: string | number;
+  max?: string | number;
+  minLength?: number;
+  maxLength?: number;
 };
 
 const Input = ({
@@ -23,14 +28,14 @@ const Input = ({
   type,
   labelCls = "input__heading",
   filterCls,
-  handleChange,
+  onChange,
+  value,
+  max,
+  min,
+  maxLength,
+  minLength,
 }: Props) => {
-  const minLength = type === "password" ? 3 : undefined;
-  const maxLength = type === "password" ? 20 : undefined;
   const auto = type === "password" ? "new-password" : "off";
-  const min = type === "number" ? "1" : undefined;
-  const max = type === "number" ? "10" : undefined;
-  const value = type === "number" ? "1" : undefined;
 
   return (
     <label className={`${filterCls} input`}>
@@ -46,7 +51,7 @@ const Input = ({
         min={min}
         max={max}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
         required={required}
       />
     </label>
