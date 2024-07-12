@@ -6,3 +6,4 @@ export { Button } from "./button/button";
 export { Selection } from "./selection/selection";
 export { Filters } from "./filters/filters";
 export { TripCard } from "./trip-card/trip-card";
+export { Modal } from "./modal/modal";
