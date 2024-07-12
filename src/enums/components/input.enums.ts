@@ -8,7 +8,9 @@ const InputType = {
 } as const;
 
 const Label = {
+  DATE: "Date",
   EMAIL: "Email",
+  NUMBER_GUESTS: "Number of guests",
   PASSWORD: "Password",
   FULL_NAME: "Full name",
   SEARCH_BY_NAME: "Search by name",

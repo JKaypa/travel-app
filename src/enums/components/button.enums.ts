@@ -13,7 +13,6 @@ const BtnCls = {
 
 const Title = {
   SIGNIN: "Sign In",
-  SIGNOUT: "Sign Out",
   SIGNUP: "Sign Up",
   BOOK_A_TRIP: "Book a trip",
   X: "×",
