@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Button, Input } from "../components";
-import { BtnCls, BtnTest, InputTest, InputType, Label, Name, BtnChild } from "~/enums/enums";
-import { Guests } from "./enum/guests.enum";
+import { BtnChild, BtnCls, BtnTest, InputTest, InputType, Label, Name } from "~/enums/enums";
 import { TripProps } from "~/types/types";
+import { Button, Input } from "../components";
+import { Guests } from "./enum/guests.enum";
 import "./styles/modal.css";
 
 type Props = TripProps & {

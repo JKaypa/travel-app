@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
-import "./styles/selection.css";
 import { decodeEntity } from "./helpers/decode-entity.helper";
+import "./styles/selection.css";
 
 type Props = {
   filteredBy: string;

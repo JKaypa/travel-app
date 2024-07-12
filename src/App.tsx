@@ -1,11 +1,11 @@
-import "./App.css";
 import { ChangeEvent, FormEvent, useCallback, useState } from "react";
+import { Navigate } from "react-router-dom";
+import "./App.css";
 import { Router } from "./components/components";
+import dataBookings from "./data/bookings.json";
 import { Name, Route } from "./enums/enums";
 import { AuthForm, Bookings, Layout, MainPage, TripDetail } from "./pages/pages";
 import { TripSetters } from "./types/types";
-import { Navigate } from "react-router-dom";
-import dataBookings from "./data/bookings.json";
 
 function App() {
   const [guests, setGuests] = useState(1);

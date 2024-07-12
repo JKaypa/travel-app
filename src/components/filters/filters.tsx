@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
+import { InputTest, InputType, Label, Name, PlaceHolder } from "~/enums/enums";
 import { Input, Selection } from "../components";
 import { duration, level } from "../selection/helpers/options.helper";
-import { InputTest, InputType, Label, Name, PlaceHolder } from "~/enums/enums";
 import "./styles/filters.css";
 
 type Props = {

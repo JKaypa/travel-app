@@ -1,8 +1,8 @@
-import "./styles/profile.css";
+import { Link } from "react-router-dom";
 import briefcase from "~/assets/images/briefcase.svg";
 import user from "~/assets/images/user.svg";
-import { Link } from "react-router-dom";
 import { Route } from "~/enums/enums";
+import "./styles/profile.css";
 
 const Profile = () => {
   return (

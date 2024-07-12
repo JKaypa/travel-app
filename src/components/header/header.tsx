@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 
-import "./styles/header.css";
-import { Profile } from "./components/profile/profile";
 import { Route } from "~/enums/enums";
+import { Profile } from "./components/profile/profile";
+import "./styles/header.css";
 
 const Header = () => {
   const { pathname } = useLocation();

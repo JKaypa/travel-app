@@ -1,5 +1,5 @@
-import "./styles/footer.css";
 import heart from "~/assets/images/heart.svg";
+import "./styles/footer.css";
 
 const Footer = () => {
   return (

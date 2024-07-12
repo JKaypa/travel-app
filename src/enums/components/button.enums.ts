@@ -20,4 +20,4 @@ const BtnChild = {
   X: "×",
 } as const;
 
-export { BtnCls, BtnChild, BtnTest };
+export { BtnChild, BtnCls, BtnTest };

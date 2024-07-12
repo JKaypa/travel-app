@@ -1,4 +1,4 @@
-import { BtnCls, BtnTest, BtnChild } from "~/enums/enums";
+import { BtnChild, BtnCls, BtnTest } from "~/enums/enums";
 import { ValueOf } from "~/types/types";
 
 type Props = {

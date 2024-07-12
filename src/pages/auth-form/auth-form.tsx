@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { BtnChild, BtnCls, BtnTest, InputTest, InputType, Label, Name, Route } from "~/enums/enums";
 import { Button, Input } from "../../components/components";
-import { BtnCls, BtnTest, InputTest, InputType, Label, Name, Route, BtnChild } from "~/enums/enums";
 import { PWord } from "./enums/password.enum";
 import "./styles/auth-form.css";
 

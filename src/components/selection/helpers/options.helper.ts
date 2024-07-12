@@ -28,4 +28,4 @@ const duration = [
   },
 ];
 
-export { level, duration };
+export { duration, level };

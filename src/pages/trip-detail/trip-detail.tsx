@@ -1,10 +1,10 @@
-import dataTrips from "~/data/trips.json";
+import { ChangeEvent, FormEvent } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Modal } from "~/components/components";
-import { ChangeEvent, FormEvent } from "react";
+import dataTrips from "~/data/trips.json";
 import { BtnChild, BtnCls, BtnTest } from "~/enums/enums";
-import "./styles/trip-detail.css";
 import { TripSetters } from "~/types/types";
+import "./styles/trip-detail.css";
 
 type Props = {
   handleGuests: (event: ChangeEvent<HTMLInputElement>) => void;
