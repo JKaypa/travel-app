@@ -2,7 +2,7 @@ import dataTrips from "~/data/trips.json";
 import { useParams } from "react-router-dom";
 import { Button, Modal } from "~/components/components";
 import { ChangeEvent, FormEvent } from "react";
-import { BtnCls, BtnTest, Title } from "~/enums/enums";
+import { BtnChild, BtnCls, BtnTest } from "~/enums/enums";
 import "./styles/trip-detail.css";
 import { TripSetters } from "~/types/types";
 
@@ -10,6 +10,7 @@ type Props = {
   handleGuests: (event: ChangeEvent<HTMLInputElement>) => void;
   setters: ({ tripPrice, tripTitle, tripId, tripDuration }: TripSetters) => void;
   states: () => {
+    date: string;
     totalPrice: number;
     guests: number;
     isHidden: boolean;
@@ -56,7 +57,7 @@ const TripDetail = ({ handleGuests, setters, states, submitTrip, handleHidden }:
             </strong>
           </div>
           <Button
-            children={Title.BOOK_A_TRIP}
+            children={BtnChild.BOOK_A_TRIP}
             cls={BtnCls.TRIP}
             testId={BtnTest.DETAILS}
             onClick={handleHidden}
