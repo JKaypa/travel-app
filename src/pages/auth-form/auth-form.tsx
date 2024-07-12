@@ -1,13 +1,14 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Input } from "../../components/components";
-import { BtnCls, BtnTest, InputTest, InputType, Label, Name, Route, Title } from "~/enums/enums";
+import { BtnCls, BtnTest, InputTest, InputType, Label, Name, Route, BtnChild } from "~/enums/enums";
+import { PWord } from "./enums/password.enum";
 import "./styles/auth-form.css";
 
 const AuthForm = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const testId = pathname === Route.SIGNIN ? "auth-sign-in-link" : "auth-sign-up-link";
-  const title = pathname === Route.SIGNIN ? Title.SIGNIN : Title.SIGNUP;
+  const title = pathname === Route.SIGNIN ? BtnChild.SIGNIN : BtnChild.SIGNUP;
 
   const handleSubmit = () => {
     navigate(Route.ROOT);
@@ -37,6 +38,8 @@ const AuthForm = () => {
           name={Name.PASSWORD}
           testId={InputTest.PASSWORD}
           type={InputType.PASSWORD}
+          maxLength={PWord.MAX}
+          minLength={PWord.MIN}
         />
         <Button children={title} cls={BtnCls.BUTTON} testId={BtnTest.SUBMIT} type={"submit"} />
       </form>
@@ -47,7 +50,7 @@ const AuthForm = () => {
           data-test-id={testId}
           className="sign-up-form__link"
         >
-          {pathname === Route.SIGNUP ? Title.SIGNIN : Title.SIGNUP}
+          {pathname === Route.SIGNUP ? BtnChild.SIGNIN : BtnChild.SIGNUP}
         </Link>
       </span>
     </main>
