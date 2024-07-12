@@ -21,7 +21,7 @@ const Filters = ({ handleChange }: Props) => {
           placeHolder={PlaceHolder.SEARCH_TITLE}
           filterCls="trips-filter__search"
           labelCls="visually-hidden"
-          handleChange={handleChange}
+          onChange={handleChange}
           required={false}
         />
         <Selection filteredBy="duration" options={duration} handleChange={handleChange} />
