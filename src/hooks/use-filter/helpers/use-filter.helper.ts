@@ -1,15 +1,4 @@
-// import { firstUpperCase } from "./upper-case.helper";
-
-type Trip = {
-  id: string;
-  title: string;
-  description: string;
-  level: string;
-  duration: number;
-  price: number;
-  image: string;
-  createdAt: string;
-};
+import { Trip } from "~/types/types";
 
 const filterDuration = (trips: Trip[], duration: string) => {
   return trips.filter((trip) => {
