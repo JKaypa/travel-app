@@ -43,4 +43,4 @@ const TripCard = ({ image, title, duration, level, price, id }: Props) => {
   );
 };
 
-export { TripCard };
+export { TripCard, type Props as TripCardProps };
