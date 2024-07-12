@@ -1,9 +1,11 @@
+import "./App.css";
 import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import { Router } from "./components/components";
 import { Name, Route } from "./enums/enums";
-import { AuthForm, Layout, MainPage, TripDetail } from "./pages/pages";
+import { AuthForm, Bookings, Layout, MainPage, TripDetail } from "./pages/pages";
 import { TripSetters } from "./types/types";
-import "./App.css";
+import { Navigate } from "react-router-dom";
+import dataBookings from "./data/bookings.json";
 
 function App() {
   const [guests, setGuests] = useState(1);
@@ -14,18 +16,24 @@ function App() {
   const [id, setId] = useState("");
   const [duration, setDuration] = useState(0);
   const [isHidden, setIsHidden] = useState(true);
+  const [bookings, setBookings] = useState(dataBookings);
 
   const states = () => {
-    return { totalPrice, guests, isHidden };
+    return { date, totalPrice, guests, isHidden };
   };
 
-  const setters = useCallback(({ tripPrice, tripTitle, tripId, tripDuration }: TripSetters) => {
-    setPrice(tripPrice);
-    setTitle(tripTitle);
-    setTotalPrice(tripPrice);
-    setId(tripId);
-    setDuration(tripDuration);
-  }, []);
+  const setters = useCallback(
+    ({ tripDate, tripGuests, tripPrice, tripTitle, tripId, tripDuration }: TripSetters) => {
+      setDate(tripDate);
+      setGuests(tripGuests);
+      setPrice(tripPrice);
+      setTitle(tripTitle);
+      setTotalPrice(tripPrice);
+      setId(tripId);
+      setDuration(tripDuration);
+    },
+    []
+  );
 
   const handleGuests = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
@@ -43,9 +51,30 @@ function App() {
     setIsHidden(!isHidden);
   };
 
+  const handleClose = (id: string) => {
+    const closedBooking = bookings.filter((booking) => booking.id !== id);
+    setBookings(closedBooking);
+  };
+
   const submitTrip = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const tripDate = new Date(date);
+    const newBooking = {
+      id: crypto.randomUUID(),
+      userId: crypto.randomUUID(),
+      tripId: id,
+      guests,
+      date: tripDate.toISOString().slice(0, 10),
+      trip: {
+        title,
+        duration,
+        price,
+      },
+      totalPrice,
+      createdAt: new Date().toISOString(),
+    };
 
+    setBookings((bookings) => [...bookings, newBooking]);
     handleHidden();
   };
 
@@ -70,6 +99,11 @@ function App() {
                 />
               ),
             },
+            {
+              path: Route.BOOKINGS,
+              element: <Bookings bookings={bookings} handleClose={handleClose} />,
+            },
+            { path: Route.UNKNOWN, element: <Navigate to={Route.ROOT} /> },
           ],
         },
       ]}
