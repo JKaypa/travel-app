@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Button, Input } from "../components";
-import { BtnCls, BtnTest, InputTest, InputType, Label, Name, Title } from "~/enums/enums";
+import { BtnCls, BtnTest, InputTest, InputType, Label, Name, BtnChild } from "~/enums/enums";
 import { Guests } from "./enum/guests.enum";
 import { TripProps } from "~/types/types";
 import "./styles/modal.css";
@@ -25,19 +25,27 @@ const Modal = ({
   level,
   price,
 }: Props) => {
-  useEffect(() => {
-    setters({ tripPrice: price, tripTitle: title, tripId, tripDuration: duration });
-  }, [duration, price, setters, title, tripId]);
+  const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
-  const { guests, totalPrice, isHidden } = states();
-  const date = new Date().toISOString().slice(0, 10);
+  useEffect(() => {
+    setters({
+      tripDate: tomorrow,
+      tripGuests: 1,
+      tripPrice: price,
+      tripTitle: title,
+      tripId,
+      tripDuration: duration,
+    });
+  }, [duration, price, setters, title, tripId, tomorrow]);
+
+  const { date, guests, totalPrice, isHidden } = states();
 
   return (
     <div hidden={isHidden}>
       <div className="modal">
         <div data-test-id="book-trip-popup" className="book-trip-popup">
           <Button
-            children={Title.X}
+            children={BtnChild.X}
             cls={BtnCls.CLOSE}
             testId={BtnTest.POPUP_CLOSE}
             onClick={handleHidden}
@@ -61,7 +69,7 @@ const Modal = ({
               name={Name.DATE}
               testId={InputTest.DATE}
               type={InputType.DATE}
-              min={date}
+              min={tomorrow}
               value={date}
               onChange={handleGuests}
             />
@@ -85,7 +93,7 @@ const Modal = ({
               </output>
             </span>
             <Button
-              children={Title.BOOK_A_TRIP}
+              children={BtnChild.BOOK_A_TRIP}
               cls={BtnCls.BUTTON}
               testId={BtnTest.POPUP_SUBMIT}
               type="submit"
