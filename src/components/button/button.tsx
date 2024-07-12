@@ -6,6 +6,7 @@ type Props = {
   cls: ValueOf<typeof BtnCls>;
   type?: "submit";
   children: JSX.Element | ValueOf<typeof Title>;
+  onClick?: () => void;
 };
 
 const cancelBooking = (
@@ -14,9 +15,9 @@ const cancelBooking = (
   </>
 );
 
-const Button = ({ children = cancelBooking, cls, testId, type }: Props) => {
+const Button = ({ children = cancelBooking, cls, testId, type, onClick }: Props) => {
   return (
-    <button data-test-id={testId} className={cls} type={type}>
+    <button data-test-id={testId} className={cls} type={type} onClick={onClick}>
       {children}
     </button>
   );
