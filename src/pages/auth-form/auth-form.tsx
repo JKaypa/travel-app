@@ -1,17 +1,49 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BtnChild, BtnCls, BtnTest, InputTest, InputType, Label, Name, Route } from "~/enums/enums";
 import { Button, Input } from "../../components/components";
 import { PWord } from "./enums/password.enum";
 import "./styles/auth-form.css";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { AuthRequestDto } from "~/types/types";
+import { useAppDispatch } from "~/hooks/hooks";
+import { signin, signup } from "~/store/actions/actions";
 
 const AuthForm = () => {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
-  const testId = pathname === Route.SIGNIN ? "auth-sign-in-link" : "auth-sign-up-link";
-  const title = pathname === Route.SIGNIN ? BtnChild.SIGNIN : BtnChild.SIGNUP;
+  const dispatch = useAppDispatch();
+  const isSignin = pathname === Route.SIGNIN;
+  const testId = isSignin ? "auth-sign-in-link" : "auth-sign-up-link";
+  const title = isSignin ? BtnChild.SIGNIN : BtnChild.SIGNUP;
+  const [user, setUser] = useState<AuthRequestDto>({ email: "", password: "" });
 
-  const handleSubmit = () => {
-    navigate(Route.ROOT);
+  useEffect(() => {
+    isSignin
+      ? setUser({ email: "", password: "" })
+      : setUser({ email: "", password: "", fullName: "" });
+  }, [isSignin]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    switch (name) {
+      case Name.FULL_NAME:
+        setUser({ ...user, fullName: value });
+        break;
+      case Name.EMAIL:
+        setUser({ ...user, email: value });
+        break;
+      case Name.PASSWORD:
+        setUser({ ...user, password: value });
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    isSignin ? dispatch(signin(user)) : dispatch(signup(user));
   };
 
   return (
@@ -25,6 +57,8 @@ const AuthForm = () => {
             name={Name.FULL_NAME}
             testId={InputTest.FULL_NAME}
             type={InputType.TEXT}
+            value={user.fullName}
+            onChange={handleChange}
           />
         ) : null}
         <Input
@@ -32,6 +66,8 @@ const AuthForm = () => {
           name={Name.EMAIL}
           testId={InputTest.EMAIL}
           type={InputType.EMAIL}
+          value={user.email}
+          onChange={handleChange}
         />
         <Input
           label={Label.PASSWORD}
@@ -40,17 +76,19 @@ const AuthForm = () => {
           type={InputType.PASSWORD}
           maxLength={PWord.MAX}
           minLength={PWord.MIN}
+          value={user.password}
+          onChange={handleChange}
         />
         <Button children={title} cls={BtnCls.BUTTON} testId={BtnTest.SUBMIT} type={"submit"} />
       </form>
       <span>
-        {pathname === Route.SIGNUP ? "Already have an account? " : "Don't have an account? "}
+        {isSignin ? "Don't have an account? " : "Already have an account? "}
         <Link
-          to={pathname === Route.SIGNUP ? Route.SIGNIN : Route.SIGNUP}
+          to={isSignin ? Route.SIGNUP : Route.SIGNIN}
           data-test-id={testId}
           className="sign-up-form__link"
         >
-          {pathname === Route.SIGNUP ? BtnChild.SIGNIN : BtnChild.SIGNUP}
+          {isSignin ? BtnChild.SIGNUP : BtnChild.SIGNIN}
         </Link>
       </span>
     </main>

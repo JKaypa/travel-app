@@ -1,29 +1,31 @@
-import { ChangeEvent, FormEvent } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Modal } from "~/components/components";
-import dataTrips from "~/data/trips.json";
+import { Button, Loader, Modal } from "~/components/components";
 import { BtnChild, BtnCls, BtnTest } from "~/enums/enums";
-import { TripSetters } from "~/types/types";
+import { useAppDispatch, useAppSelector } from "~/hooks/hooks";
+import { cleanTrip, getTripById } from "~/store/actions/actions";
 import "./styles/trip-detail.css";
 
-type Props = {
-  handleGuests: (event: ChangeEvent<HTMLInputElement>) => void;
-  setters: ({ tripPrice, tripTitle, tripId, tripDuration }: TripSetters) => void;
-  states: () => {
-    date: string;
-    totalPrice: number;
-    guests: number;
-    isHidden: boolean;
-  };
-  submitTrip: (event: FormEvent<HTMLFormElement>) => void;
-  handleHidden: () => void;
-};
-
-const TripDetail = ({ handleGuests, setters, states, submitTrip, handleHidden }: Props) => {
+const TripDetail = () => {
+  const [isHidden, setIsHidden] = useState(true);
   const { tripId } = useParams();
-  const [trip] = dataTrips.filter((trip) => trip.id === tripId);
+  const dispatch = useAppDispatch();
+  const trip = useAppSelector((state) => state.trips.trip);
 
-  return (
+  useEffect(() => {
+    if (tripId) {
+      dispatch(getTripById(tripId));
+    }
+    return () => {
+      dispatch(cleanTrip());
+    };
+  }, [dispatch, tripId]);
+
+  const handleHidden = () => {
+    setIsHidden(!isHidden);
+  };
+
+  return trip ? (
     <main className="trip-page">
       <h1 className="visually-hidden">Travel App</h1>
       <div className="trip">
@@ -70,14 +72,13 @@ const TripDetail = ({ handleGuests, setters, states, submitTrip, handleHidden }:
         duration={trip.duration}
         level={trip.level}
         price={trip.price}
+        isHidden={isHidden}
         handleHidden={handleHidden}
-        handleGuests={handleGuests}
-        setters={setters}
-        states={states}
-        submitTrip={submitTrip}
       />
     </main>
+  ) : (
+    <Loader />
   );
 };
 
-export { TripDetail, type Props as TripProps };
+export { TripDetail };
