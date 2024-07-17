@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { Booking } from "~/types/types";
+import { BookingResponseDto } from "~/types/types";
 
-const useFormatDate = (bookings: Booking[]) => {
-  const [bookingsFormatted, setBookingsFormatted] = useState<Booking[]>();
+const useFormatDate = (bookings: BookingResponseDto[] | null) => {
+  const [bookingsFormatted, setBookingsFormatted] = useState<BookingResponseDto[] | null>();
 
   useEffect(() => {
-    const formatted: Booking[] = [];
+    const formatted: BookingResponseDto[] = [];
 
-    bookings.forEach((booking) => {
-      booking.date = booking.date.slice(0, 10);
+    bookings?.forEach((booking) => {
+      const bookingCopy = { ...booking };
+      bookingCopy.date = bookingCopy.date.slice(0, 10);
 
-      formatted.push(booking);
+      formatted.push(bookingCopy);
     });
 
     formatted.sort((a, b) => +new Date(a.date) - +new Date(b.date));
