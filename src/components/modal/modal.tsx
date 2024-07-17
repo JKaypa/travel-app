@@ -1,44 +1,51 @@
-import { useEffect } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { BtnChild, BtnCls, BtnTest, InputTest, InputType, Label, Name } from "~/enums/enums";
-import { TripProps } from "~/types/types";
+import { useAppDispatch } from "~/hooks/hooks";
+import { bookATrip } from "~/store/actions/actions";
+import { BookingRequestDto } from "~/types/bookings/bookings.type";
 import { Button, Input } from "../components";
 import { Guests } from "./enum/guests.enum";
 import "./styles/modal.css";
 
-type Props = TripProps & {
+type Props = {
   tripId: string;
   title: string;
   duration: number;
   level: string;
   price: number;
+  isHidden: boolean;
+  handleHidden: () => void;
 };
 
-const Modal = ({
-  setters,
-  states,
-  handleHidden,
-  handleGuests,
-  submitTrip,
-  tripId,
-  title,
-  duration,
-  level,
-  price,
-}: Props) => {
-  const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+const Modal = ({ isHidden, handleHidden, tripId, title, duration, level, price }: Props) => {
+  const tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString();
+  const tomorrow = tomorrowDate.slice(0, 10);
+  const dispatch = useAppDispatch();
+  const [totalPrice, setTotalPrice] = useState<number>(price);
+  const [booking, setBooking] = useState<BookingRequestDto>({
+    tripId,
+    date: tomorrow,
+    guests: 1,
+  });
 
-  useEffect(() => {
-    setters({
-      tripDate: tomorrow,
-      tripGuests: 1,
-      tripPrice: price,
-      tripTitle: title,
-      tripId,
-      tripDuration: duration,
-    });
-  }, [duration, price, setters, title, tripId, tomorrow]);
+  const handleBooking = (event: ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name;
+    const value = event.target.value;
 
-  const { date, guests, totalPrice, isHidden } = states();
+    if (name === Name.GUESTS) {
+      setBooking({ ...booking, guests: +value });
+      setTotalPrice(price * +value);
+    } else {
+      setBooking({ ...booking, date: value });
+    }
+  };
+
+  const submitTrip = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    dispatch(bookATrip(booking));
+    handleHidden();
+  };
 
   return (
     <div hidden={isHidden}>
@@ -70,8 +77,8 @@ const Modal = ({
               testId={InputTest.DATE}
               type={InputType.DATE}
               min={tomorrow}
-              value={date}
-              onChange={handleGuests}
+              value={booking.date}
+              onChange={handleBooking}
             />
             <Input
               label={Label.NUMBER_GUESTS}
@@ -80,8 +87,8 @@ const Modal = ({
               type={InputType.NUMBER}
               min={Guests.MIN}
               max={Guests.MAX}
-              value={guests}
-              onChange={handleGuests}
+              value={booking.guests}
+              onChange={handleBooking}
             />
             <span className="book-trip-popup__total">
               Total:

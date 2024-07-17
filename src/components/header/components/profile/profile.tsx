@@ -1,10 +1,20 @@
 import { Link } from "react-router-dom";
 import briefcase from "~/assets/images/briefcase.svg";
 import user from "~/assets/images/user.svg";
-import { Route } from "~/enums/enums";
+import { Button } from "~/components/components";
+import { BtnChild, BtnCls, BtnTest, Route } from "~/enums/enums";
+import { useAppDispatch, useAppSelector } from "~/hooks/hooks";
+import { signout } from "~/store/actions/actions";
 import "./styles/profile.css";
 
 const Profile = () => {
+  const userName = useAppSelector((state) => state.auth.user?.fullName);
+  const dispatch = useAppDispatch();
+
+  const signOut = () => {
+    dispatch(signout());
+  };
+
   return (
     <>
       <nav data-test-id="header-nav" className="header__nav">
@@ -25,16 +35,15 @@ const Profile = () => {
               <img src={user} alt="profile" />
               <ul data-test-id="header-profile-nav-list" className="profile-nav__list">
                 <li data-test-id="header-profile-nav-username" className="profile-nav__item">
-                  John Doe
+                  {userName}
                 </li>
                 <li className="profile-nav__item">
-                  <Link
-                    to={Route.SIGNIN}
-                    data-test-id="header-profile-nav-sign-out"
-                    className="profile-nav__sign-out button"
-                  >
-                    Sign Out
-                  </Link>
+                  <Button
+                    cls={BtnCls.SIGNOUT}
+                    testId={BtnTest.SIGNOUT}
+                    children={BtnChild.SIGNOUT}
+                    onClick={signOut}
+                  />
                 </li>
               </ul>
             </div>
