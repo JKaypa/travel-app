@@ -1,5 +1,5 @@
 import { createSlice, isAnyOf, PayloadAction } from "@reduxjs/toolkit";
-import { Route, StorageKey } from "~/enums/enums";
+import { StorageKey } from "~/enums/enums";
 import { storage } from "~/services/services";
 import { getUser, signin, signup } from "~/store/actions/actions";
 import { UserResponseDto } from "~/types/types";
@@ -23,7 +23,7 @@ const { actions, name, reducer } = createSlice({
     },
     signout: () => {
       storage.remove(StorageKey.TOKEN);
-      location.pathname = Route.SIGNIN;
+      location.reload();
     },
   },
   extraReducers: (builder) => {
