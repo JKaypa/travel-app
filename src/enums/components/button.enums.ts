@@ -1,22 +1,25 @@
 const BtnTest = {
   CANCEL: "booking-cancel",
-  SUBMIT: "auth-submit",
+  DETAILS: "trip-details-button",
   POPUP_CLOSE: "book-trip-popup-close",
   POPUP_SUBMIT: "book-trip-popup-submit",
-  DETAILS: "trip-details-button",
+  SIGNOUT: "header-profile-nav-sign-out",
+  SUBMIT: "auth-submit",
 } as const;
 
 const BtnCls = {
   CANCEL: "booking__cancel",
   CLOSE: "book-trip-popup__close",
   BUTTON: "button",
+  SIGNOUT: "profile-nav__sign-out button",
   TRIP: "trip__button button",
 } as const;
 
 const BtnChild = {
+  BOOK_A_TRIP: "Book a trip",
   SIGNIN: "Sign In",
   SIGNUP: "Sign Up",
-  BOOK_A_TRIP: "Book a trip",
+  SIGNOUT: "Sign Out",
   X: "×",
 } as const;
 
