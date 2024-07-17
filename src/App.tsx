@@ -1,82 +1,25 @@
-import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import { Navigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import { Router } from "./components/components";
-import dataBookings from "./data/bookings.json";
-import { Name, Route } from "./enums/enums";
+import { Protected, Router } from "./components/components";
+import { Privacy, Route, StorageKey } from "./enums/enums";
+import { useAppDispatch } from "./hooks/hooks";
 import { AuthForm, Bookings, Layout, MainPage, TripDetail } from "./pages/pages";
-import { TripSetters } from "./types/types";
+import { storage } from "./services/services";
+import { authUser, getUser } from "./store/actions/actions";
+import { useEffect } from "react";
 
 function App() {
-  const [guests, setGuests] = useState(1);
-  const [price, setPrice] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [date, setDate] = useState("");
-  const [title, setTitle] = useState("");
-  const [id, setId] = useState("");
-  const [duration, setDuration] = useState(0);
-  const [isHidden, setIsHidden] = useState(true);
-  const [bookings, setBookings] = useState(dataBookings);
+  const dispatch = useAppDispatch();
+  const hasToken = storage.has(StorageKey.TOKEN);
 
-  const states = () => {
-    return { date, totalPrice, guests, isHidden };
-  };
-
-  const setters = useCallback(
-    ({ tripDate, tripGuests, tripPrice, tripTitle, tripId, tripDuration }: TripSetters) => {
-      setDate(tripDate);
-      setGuests(tripGuests);
-      setPrice(tripPrice);
-      setTitle(tripTitle);
-      setTotalPrice(tripPrice);
-      setId(tripId);
-      setDuration(tripDuration);
-    },
-    []
-  );
-
-  const handleGuests = (event: ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    if (name === Name.GUESTS) {
-      setGuests(+value);
-      setTotalPrice(price * +value);
+  useEffect(() => {
+    if (hasToken) {
+      dispatch(getUser());
     } else {
-      setDate(value);
+      dispatch(authUser(false));
     }
-  };
-
-  const handleHidden = () => {
-    setIsHidden(!isHidden);
-  };
-
-  const handleClose = (id: string) => {
-    const closedBooking = bookings.filter((booking) => booking.id !== id);
-    setBookings(closedBooking);
-  };
-
-  const submitTrip = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const tripDate = new Date(date);
-    const newBooking = {
-      id: crypto.randomUUID(),
-      userId: crypto.randomUUID(),
-      tripId: id,
-      guests,
-      date: tripDate.toISOString().slice(0, 10),
-      trip: {
-        title,
-        duration,
-        price,
-      },
-      totalPrice,
-      createdAt: new Date().toISOString(),
-    };
-
-    setBookings((bookings) => [...bookings, newBooking]);
-    handleHidden();
-  };
+  }, [dispatch, hasToken]);
 
   return (
     <Router
@@ -84,24 +27,45 @@ function App() {
         {
           element: <Layout />,
           children: [
-            { path: Route.SIGNIN, element: <AuthForm /> },
-            { path: Route.SIGNUP, element: <AuthForm /> },
-            { path: Route.ROOT, element: <MainPage /> },
+            {
+              path: Route.SIGNIN,
+              element: (
+                <Protected privacy={Privacy.PUBLIC}>
+                  <AuthForm />
+                </Protected>
+              ),
+            },
+            {
+              path: Route.SIGNUP,
+              element: (
+                <Protected privacy={Privacy.PUBLIC}>
+                  <AuthForm />
+                </Protected>
+              ),
+            },
+            {
+              path: Route.ROOT,
+              element: (
+                <Protected privacy={Privacy.PRIVATE}>
+                  <MainPage />
+                </Protected>
+              ),
+            },
             {
               path: Route.TRIP_ID,
               element: (
-                <TripDetail
-                  handleGuests={handleGuests}
-                  handleHidden={handleHidden}
-                  setters={setters}
-                  states={states}
-                  submitTrip={submitTrip}
-                />
+                <Protected privacy={Privacy.PRIVATE}>
+                  <TripDetail />
+                </Protected>
               ),
             },
             {
               path: Route.BOOKINGS,
-              element: <Bookings bookings={bookings} handleClose={handleClose} />,
+              element: (
+                <Protected privacy={Privacy.PRIVATE}>
+                  <Bookings />
+                </Protected>
+              ),
             },
             { path: Route.UNKNOWN, element: <Navigate to={Route.ROOT} /> },
           ],
