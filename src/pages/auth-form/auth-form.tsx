@@ -7,6 +7,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { AuthRequestDto } from "~/types/types";
 import { useAppDispatch } from "~/hooks/hooks";
 import { signin, signup } from "~/store/actions/actions";
+import { APP_NAME } from "~/constants/app-name";
 
 const AuthForm = () => {
   const { pathname } = useLocation();
@@ -48,7 +49,7 @@ const AuthForm = () => {
 
   return (
     <main className="sign-up-page">
-      <h1 className="visually-hidden">Travel App</h1>
+      <h1 className="visually-hidden">{APP_NAME}</h1>
       <form className="sign-up-form" autoComplete="off" onSubmit={handleSubmit}>
         <h2 className="sign-up-form__title">{title}</h2>
         {pathname === Route.SIGNUP ? (

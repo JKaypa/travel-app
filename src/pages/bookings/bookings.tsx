@@ -2,6 +2,7 @@ import { BookingCard, Loader } from "~/components/components";
 import { useAppDispatch, useAppSelector, useFormatDate } from "~/hooks/hooks";
 import { cancelBooking, getBookings } from "~/store/actions/actions";
 import "./styles/bookings.css";
+import { APP_NAME } from "~/constants/app-name";
 import { useEffect } from "react";
 
 const Bookings = () => {
@@ -19,7 +20,7 @@ const Bookings = () => {
 
   return (
     <main className="bookings-page">
-      <h1 className="visually-hidden">Travel App</h1>
+      <h1 className="visually-hidden">{APP_NAME}</h1>
       <ul className="bookings__list">
         {bookingsFormatted ? (
           bookingsFormatted.map((booking) => (

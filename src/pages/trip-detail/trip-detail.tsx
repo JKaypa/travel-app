@@ -4,6 +4,7 @@ import { Button, Loader, Modal } from "~/components/components";
 import { BtnChild, BtnCls, BtnTest } from "~/enums/enums";
 import { useAppDispatch, useAppSelector } from "~/hooks/hooks";
 import { cleanTrip, getTripById } from "~/store/actions/actions";
+import { APP_NAME } from "~/constants/app-name";
 import "./styles/trip-detail.css";
 
 const TripDetail = () => {
@@ -27,7 +28,7 @@ const TripDetail = () => {
 
   return trip ? (
     <main className="trip-page">
-      <h1 className="visually-hidden">Travel App</h1>
+      <h1 className="visually-hidden">{APP_NAME}</h1>
       <div className="trip">
         <img
           data-test-id="trip-details-image"
